@@ -22,10 +22,15 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// Define default values for Flutter SDK versions if not present in local.properties
+def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion', '21')
+def flutterTargetSdkVersion = localProperties.getProperty('flutter.targetSdkVersion', '34')
+def flutterNdkVersion = localProperties.getProperty('flutter.ndkVersion', '21.1.6352462')
+
 android {
     namespace "com.example.event_management_app"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion 34
+    ndkVersion flutterNdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -41,20 +46,15 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.event_management_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion flutterMinSdkVersion.toInteger()  // Using the defined minSdkVersion
+        targetSdkVersion flutterTargetSdkVersion.toInteger()  // Using the defined targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
     }
@@ -64,4 +64,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    // Add your dependencies here
+}
